@@ -1,62 +1,61 @@
-# Proyecto: Conversor de Sentencias a Código (JSON)
+# ⚖️ Automatización Procesal: Extractor de Sentencias a JSON
 
-## 1. El Problema
-Los despachos grandes manejan miles de notificaciones judiciales. Actualmente, un administrativo debe leer cada PDF y copiar manualmente la fecha, el juzgado, la cuantía y el fallo en un Excel. Es lento y propenso a errores humanos.
+## 📋 Descripción del Proyecto
+Este módulo automatiza la lectura de notificaciones judiciales. Utilizando **LLMs (GPT-4)**, transformamos el texto desestructurado de las sentencias en objetos **JSON** estandarizados. Esto permite la ingesta automática de datos en CRMs legales o bases de datos SQL, eliminando la revisión manual.
 
-## 2. La Solución (The Prompt)
-Un prompt diseñado para actuar como un **parser (analizador sintáctico)**. No opina, solo extrae datos y los devuelve en formato **JSON**, que es el lenguaje que entienden las bases de datos y el software de gestión.
+## 1. Ingeniería del Prompt
+El prompt está diseñado con restricciones estrictas de formato ("Strict Mode") para evitar alucinaciones y asegurar que el output sea siempre código válido.
 
-### 🛠️ Configuración
-* **Rol:** Analista de Datos Judiciales.
-* **Restricción:** No inventes datos. Si un dato no está en el texto, devuelve `null`.
+### Configuración
+* **Rol:** Procesador de Datos Procesales.
 * **Output:** JSON Object.
+* **Manejo de Nulos:** Devuelve `null` si el dato no es explícito.
 
-### 💻 El Código del Prompt (Input)
-
-```json
+### El Prompt (Código)
+```text
 /* SYSTEM ROLE */
-Eres un asistente de automatización legal. Tu única función es extraer datos de textos judiciales españoles.
+Eres un asistente de automatización legal especializado en Derecho Procesal Civil.
+Tu objetivo es analizar sentencias y estructurar la información clave para una base de datos.
 
 /* USER INSTRUCTION */
-Analiza el texto de la sentencia proporcionada abajo.
-Extrae la siguiente información y preséntala EXCLUSIVAMENTE en formato JSON válido. No añadas texto introductorio ni conclusiones fuera del JSON.
+Analiza el texto proporcionado. Extrae los siguientes metadatos y devuélvelos EXCLUSIVAMENTE en formato JSON válido:
 
-Claves a extraer:
-- "organo_judicial": (String) El juzgado que emite la sentencia.
-- "fecha_sentencia": (String format DD/MM/YYYY)
-- "tipo_procedimiento": (String)
-- "cuantia_condena": (Float) Solo el número, sin el símbolo €. Usa punto para decimales.
-- "costas": (Boolean) true si hay condena en costas, false si no.
-- "fallo_resumen": (String) Resumen en una frase de quién gana.
+1. "organo_judicial": Nombre completo del juzgado (String).
+2. "numero_autos": Número de procedimiento (String).
+3. "fecha_resolucion": Formato DD/MM/YYYY (String).
+4. "cuantia_principal": Importe de la condena sin intereses ni costas (Float).
+5. "condena_en_costas": true/false (Boolean).
+6. "fallo_sintesis": Resumen en una frase del sentido del fallo (estimatorio/desestimatorio) (String).
 
 /* INPUT TEXT */
-"""
-JUZGADO DE PRIMERA INSTANCIA Nº 5 DE MADRID
-Procedimiento Ordinario 452/2023
-SENTENCIA Nº 12/2024
+{{TEXTO_SENTENCIA}}
+from openai import OpenAI
+import json
 
-En Madrid, a 15 de febrero de 2024.{
-  "organo_judicial": "Juzgado de Primera Instancia Nº 5 de Madrid",
-  "fecha_sentencia": "15/02/2024",
-  "tipo_procedimiento": "Procedimiento Ordinario 452/2023",
-  "cuantia_condena": 15400.50,
-  "costas": true,
-  "fallo_resumen": "Estimación íntegra de la demanda a favor de D. Juan García contra Seguros S.A."
-}from openai import OpenAI
 client = OpenAI()
+
+# Texto extraído del PDF (Simulado)
+sentencia_raw = "JUZGADO DE PRIMERA INSTANCIA Nº 5 DE MADRID..." 
 
 response = client.chat.completions.create(
   model="gpt-4-turbo",
   messages=[
     {"role": "system", "content": "Eres un extractor de datos judiciales. Responde solo en JSON."},
-    {"role": "user", "content": "Analiza esta sentencia..."}
+    {"role": "user", "content": f"Analiza esta sentencia: {sentencia_raw}"}
   ],
-  # ESTA ES LA CLAVE: Forzamos el modo JSON para evitar errores de sintaxis
-  response_format={ "type": "json_object" },
+  # JSON Mode: Garantiza que no haya texto fuera de las llaves {}
+  response_format={ "type": "json_object" }, 
   temperature=0
 )
 
-print(response.choices[0].message.content)
-
-FALLO: Que estimando íntegramente la demanda interpuesta por D. Juan García contra Seguros S.A., debo condenar y condeno a la demandada a abonar al actor la cantidad de 15.400,50 euros, más los intereses legales. Se impone a la parte demandada el pago de las costas procesales causadas en esta instancia.
-"""
+# Convertimos la respuesta de string a objeto Python
+data_procesal = json.loads(response.choices[0].message.content)
+print(data_procesal)
+{
+  "organo_judicial": "Juzgado de Primera Instancia Nº 5 de Madrid",
+  "numero_autos": "Procedimiento Ordinario 452/2023",
+  "fecha_resolucion": "15/02/2024",
+  "cuantia_principal": 15400.50,
+  "condena_en_costas": true,
+  "fallo_sintesis": "Estimación íntegra de la demanda con condena al pago de principal y costas."
+}
