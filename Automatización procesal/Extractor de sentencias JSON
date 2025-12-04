@@ -28,8 +28,7 @@ Analiza el texto proporcionado. Extrae los siguientes metadatos y devuélvelos E
 6. "fallo_sintesis": Resumen en una frase del sentido del fallo (estimatorio/desestimatorio) (String).
 
 /* INPUT TEXT */
-{{TEXTO_SENTENCIA}}
-from openai import OpenAI
+{{TEXTO_SENTENCIA}} from openai import OpenAI
 import json
 
 client = OpenAI()
@@ -50,8 +49,7 @@ response = client.chat.completions.create(
 
 # Convertimos la respuesta de string a objeto Python
 data_procesal = json.loads(response.choices[0].message.content)
-print(data_procesal)
-{
+print(data_procesal) {
   "organo_judicial": "Juzgado de Primera Instancia Nº 5 de Madrid",
   "numero_autos": "Procedimiento Ordinario 452/2023",
   "fecha_resolucion": "15/02/2024",
