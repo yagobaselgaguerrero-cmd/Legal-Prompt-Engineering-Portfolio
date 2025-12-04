@@ -12,7 +12,7 @@ El prompt está diseñado con restricciones estrictas de formato ("Strict Mode")
 * **Manejo de Nulos:** Devuelve `null` si el dato no es explícito.
 
 ### El Prompt (Código)
-```text
+text
 /* SYSTEM ROLE */
 Eres un asistente de automatización legal especializado en Derecho Procesal Civil.
 Tu objetivo es analizar sentencias y estructurar la información clave para una base de datos.
