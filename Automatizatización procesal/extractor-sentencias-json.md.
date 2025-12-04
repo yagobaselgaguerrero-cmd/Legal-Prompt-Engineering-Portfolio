@@ -1,0 +1,39 @@
+# Proyecto: Conversor de Sentencias a Código (JSON)
+
+## 1. El Problema
+Los despachos grandes manejan miles de notificaciones judiciales. Actualmente, un administrativo debe leer cada PDF y copiar manualmente la fecha, el juzgado, la cuantía y el fallo en un Excel. Es lento y propenso a errores humanos.
+
+## 2. La Solución (The Prompt)
+Un prompt diseñado para actuar como un **parser (analizador sintáctico)**. No opina, solo extrae datos y los devuelve en formato **JSON**, que es el lenguaje que entienden las bases de datos y el software de gestión.
+
+### 🛠️ Configuración
+* **Rol:** Analista de Datos Judiciales.
+* **Restricción:** No inventes datos. Si un dato no está en el texto, devuelve `null`.
+* **Output:** JSON Object.
+
+### 💻 El Código del Prompt (Input)
+
+
+/* SYSTEM ROLE */
+Eres un asistente de automatización legal. Tu única función es extraer datos de textos judiciales españoles.
+
+/* USER INSTRUCTION */
+Analiza el texto de la sentencia proporcionada abajo.
+Extrae la siguiente información y preséntala EXCLUSIVAMENTE en formato JSON válido. No añadas texto introductorio ni conclusiones fuera del JSON.
+
+Claves a extraer:
+- "organo_judicial": (String) El juzgado que emite la sentencia.
+- "fecha_sentencia": (String format DD/MM/YYYY)
+- "tipo_procedimiento": (String)
+- "cuantia_condena": (Float) Solo el número, sin el símbolo €. Usa punto para decimales.
+- "costas": (Boolean) true si hay condena en costas, false si no.
+- "fallo_resumen": (String) Resumen en una frase de quién gana.
+
+
+JUZGADO DE PRIMERA INSTANCIA Nº 5 DE MADRID
+Procedimiento Ordinario 452/2023
+SENTENCIA Nº 12/2024
+
+En Madrid, a 15 de febrero de 2024.
+
+FALLO: Que estimando íntegramente la demanda interpuesta por D. Juan García contra Seguros S.A., debo condenar y condeno a la demandada a abonar al actor la cantidad de 15.400,50 euros, más los intereses legales. Se impone a la parte demandada el pago de las costas procesales causadas en esta instancia.
