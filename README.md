@@ -22,19 +22,19 @@ Aquí demuestro cómo transformar el conocimiento legal en instrucciones técnic
 
 Explora mis casos de uso organizados por área de impacto. Haz clic en cada título para ver el código:
 
-### [1. 🔍 Análisis Contractual](./Analisis-Contractual)
+### [1. 🔍 Análisis Contractual](./Analisis%20Contractual)
 **Objetivo:** Auditoría acelerada ("Due Diligence").
 Prompts para detectar cláusulas abusivas, riesgos ocultos y desequilibrios en contratos complejos (NDA, Arrendamientos).
 
-### [2. 🎨 Legal Design & Simplificación](./Legal-Designs)
+### [2. 🎨 Legal Design & Simplificación](./Legal%20Designs)
 **Objetivo:** Accesibilidad y Experiencia de Cliente (CX).
 Traducción de "Legalese" a lenguaje claro, resúmenes ejecutivos y comunicación empática usando *Visual Law*.
 
-### [3. 🤖 Automatización Procesal](./Automatizacion-Procesal)
+### [3. 🤖 Automatización Procesal](./Automatización%20procesal)
 **Objetivo:** Ingeniería de Datos Legales.
 Extracción de entidades (JSON), clasificación de sentencias y automatización de flujos de trabajo administrativos.
 
-### [4. 🛡️ Compliance Check](./Compliance-Risk)
+### [4. 🛡️ Compliance Check](./Compliance%20check)
 **Objetivo:** Seguridad Jurídica y Normativa.
 Validadores estrictos para RGPD, LSSI, Normas ISO y prevención de riesgos en campañas de marketing.
 
