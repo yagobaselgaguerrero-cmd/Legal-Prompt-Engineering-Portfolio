@@ -39,11 +39,6 @@ En Madrid, a 15 de febrero de 2024.
 
 FALLO: Que estimando íntegramente la demanda interpuesta por D. Juan García contra Seguros S.A., debo condenar y condeno a la demandada a abonar al actor la cantidad de 15.400,50 euros, más los intereses legales. Se impone a la parte demandada el pago de las costas procesales causadas en esta instancia.
 """
-3. Resultado de la IA (Output)
-Este es el código que genera la IA, listo para ser copiado automáticamente a una base de datos:
-
-JSON
-
 {
   "organo_judicial": "Juzgado de Primera Instancia Nº 5 de Madrid",
   "fecha_sentencia": "15/02/2024",
@@ -52,18 +47,6 @@ JSON
   "costas": true,
   "fallo_resumen": "Estimación íntegra de la demanda a favor de D. Juan García contra Seguros S.A."
 }
-4. Análisis del Ingeniero
-Valor: Al obtener un JSON limpio, podemos conectar este prompt a una automatización (usando Zapier o Python) que lea el PDF y rellene una fila de Excel automáticamente.
-
-Robustez: Se ha instruido al modelo para separar el número de la moneda ("15400.50" en vez de "15.400,50 euros") para facilitar cálculos matemáticos posteriores.
-
-5. Implementación Técnica (API Snippet)
-Para garantizar la fiabilidad en producción, este prompt no se usa en la web de ChatGPT, sino vía API activando el parámetro response_format.
-
-A continuación, el script de Python que asegura que la respuesta sea 100% procesable por la base de datos:
-
-Python
-
 from openai import OpenAI
 client = OpenAI()
 
@@ -79,7 +62,3 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message.content)
-Nota: Al activar json_object, evitamos que el modelo añada frases conversacionales como "Aquí tienes el JSON que pediste", lo cual rompería la automatización.
-
-
-Una vez pegado, dale al botón verde **Commit changes**. ¡Debería verse perfecto
