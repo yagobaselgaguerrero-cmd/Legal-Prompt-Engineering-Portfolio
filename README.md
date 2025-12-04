@@ -26,7 +26,7 @@ Explora mis casos de uso organizados por área de impacto. Haz clic en cada tít
 **Objetivo:** Auditoría acelerada ("Due Diligence").
 Prompts para detectar cláusulas abusivas, riesgos ocultos y desequilibrios en contratos complejos (NDA, Arrendamientos).
 
-### [2. 🎨 Legal Design & Simplificación](./Legal-Design)
+### [2. 🎨 Legal Design & Simplificación](./Legal-Designs)
 **Objetivo:** Accesibilidad y Experiencia de Cliente (CX).
 Traducción de "Legalese" a lenguaje claro, resúmenes ejecutivos y comunicación empática usando *Visual Law*.
 
